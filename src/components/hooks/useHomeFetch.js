@@ -12,6 +12,9 @@ export function useHomeFetch() {
         setError(false);
         setLoading(true);
 
+        const isLoadMore = endpoint.search('page');
+
+
         try{
             // We are awaiting twice because the first await is to fetch itself, 
             // the second is to await the parsing of the data to json
@@ -20,7 +23,10 @@ export function useHomeFetch() {
             // Here "results" is just a property on the array that we get back from the results response of the API
             setState(prev => ({
                 ...prev,
-                movies: [...result.results],
+                movies: 
+                    isLoadMore !== -1 
+                    ? [...prev.movies, ...result.results] 
+                    : [...result.results],
                 heroImage: prev.heroImage || result.results[0],
                 currentPage: result.page,
                 totalPages: result.total_pages

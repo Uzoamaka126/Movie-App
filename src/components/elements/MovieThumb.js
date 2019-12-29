@@ -1,9 +1,14 @@
 import React from 'react';
-
-export default function MovieThumb() {
+import { StyledMovieThumb } from '../styles/MovieThumb';
+export default function MovieThumb({ image, clickable }) {
     return (
-        <div>
-            MovieThumb       
-        </div>
+        <StyledMovieThumb>
+            {clickable ? (
+                <img className="clickable" src={image} alt="moviethumb" />
+            ) : (
+                <img className="clickable" src={image} alt="moviethumb" />
+            )        
+        }       
+        </StyledMovieThumb>
     )
 }
