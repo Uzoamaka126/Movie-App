@@ -1,17 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
+import { createGlobalStyle } from 'styled-components';
 import './App.css';
 
 // Import Components
 import Header from './components/elements/Header';
 import Home from './components/Home';
 
+import { GlobalStyle } from './components/styles/GlobalStyles';
+
 function App() {
   return (
-    <div className="App">
-     <Header />
-     <Home />
-    </div>
+    <>
+      <Header />
+      <Home />
+      <GlobalStyle />    
+    </>
   );
 }
 
