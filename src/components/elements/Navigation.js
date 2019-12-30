@@ -1,9 +1,18 @@
 import React from 'react';
-
-export default function Navigation() {
+import { Link } from '@reach/router';
+// Import style
+import { StyledNavigation } from '../styles/Navigation';
+export default function Navigation({ movie }) {
+    console.log(movie)
     return (
-        <div>
-            Movie
-        </div>
+        <StyledNavigation>
+            <div>
+                <Link to="/">
+                    <p>Home</p>
+                </Link>
+                <p>|</p>
+                <p>{movie}</p>
+            </div>
+        </StyledNavigation>
     )
 }

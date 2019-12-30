@@ -14,10 +14,10 @@ function App() {
   return (
     <>
       <Header />
-
       <Router>
         <Home path="/" />
         <Movie path="/:movieId" />
+        {/* Note that the "/:movieId" name has to be the same in every route and prop otherwise you'll run into an error */}
         {/* A fallback component call not found that the app falls back on if the movie isn't found */}
         <NotFound default />
       </Router>
