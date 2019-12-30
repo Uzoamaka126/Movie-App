@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { 
-    API_KEY, 
-    API_URL, 
+import {  
     BACKDROP_SIZE, 
     POSTER_SIZE,
-    IMAGE_BASE_URL
+    IMAGE_BASE_URL,
+    SEARCH_BASE_URL,
+    POPULAR_BASE_URL
 } from '../config';
 
 // Import Components
@@ -26,14 +26,20 @@ export default function Home() {
     const { currentPage, totalPages } = state;
 
     function loadMoreMovies() {
-        const searchEndpoint = `${API_URL}search/movie?api_key=${API_KEY}&query=${searchTerm}&page=${currentPage + 1}`;
-        const popularMoviesEndpoint = `${API_URL}movie/popular?api_key=${API_KEY}&page=${currentPage + 1}`;
+        const searchEndpoint = `${SEARCH_BASE_URL}${searchTerm}&page=${currentPage + 1}`;
+        const popularMoviesEndpoint = `${POPULAR_BASE_URL}&page=${currentPage + 1}`;
         const endpoint = searchTerm ? searchEndpoint : popularMoviesEndpoint;
 
         console.log(popularMoviesEndpoint);
-
         fetchMovies(endpoint);
+    }
 
+    function searchMovies(search) {
+        // Check whether we have the search word or not
+        const endpoint = search ? SEARCH_BASE_URL + search : POPULAR_BASE_URL;
+
+        setSearchTerm(search);
+        fetchMovies(endpoint);
     }
 
     console.log(state);
@@ -42,12 +48,14 @@ export default function Home() {
 
     return (
         <>
-            <HeroImage 
-                image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.heroImage.backdrop_path}`}
-                title={state.heroImage.original_title}
-                text={state.heroImage.overview}
-            />
-            <SearchBar />
+            {!searchTerm && (
+                <HeroImage 
+                    image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.heroImage.backdrop_path}`}
+                    title={state.heroImage.original_title}
+                    text={state.heroImage.overview}
+                />
+            )}
+            <SearchBar callback={searchMovies}/>
             <Grid header={searchTerm ? 'Search Result' : 'Popular Movies'}>
                 {/* If the above is true, it evaluates the one on the RHS of the question mark, else - */}
                 {/* It evaluates to the one on the RHS of the full colon */}
