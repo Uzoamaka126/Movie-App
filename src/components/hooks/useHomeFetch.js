@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { POPULAR_BASE_URL } from '../../config';
 
-export function useHomeFetch() {
+export function useHomeFetch(searchTerm) {
     const [state, setState] = useState({
         movies: []
     });
@@ -19,7 +19,6 @@ export function useHomeFetch() {
             // We are awaiting twice because the first await is to fetch itself, 
             // the second is to await the parsing of the data to json
             const result = await (await fetch(endpoint)).json();
-            console.log(result);
             // Here "results" is just a property on the array that we get back from the results response of the API
             setState(prev => ({
                 ...prev,
@@ -40,8 +39,18 @@ export function useHomeFetch() {
     }
 
     useEffect(() => {
+        // if(sessionStorage.homeState) {
+        //     setState(JSON.parse(sessionStorage.homeState));
+        // }
         fetchMovies(`${POPULAR_BASE_URL}`);
     }, []); 
+
+    useEffect(() => {
+        if(!searchTerm) {
+            console.log('Writing to session storage');
+            sessionStorage.setItem('homeState', JSON.stringify(state));
+        }
+    }, [searchTerm, state]) // depend on the searchTerm
 
     return [{state, loading, error}, fetchMovies];
 }
