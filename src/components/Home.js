@@ -21,8 +21,17 @@ import { useHomeFetch } from './hooks/useHomeFetch';
 import NoImage from '../assets/page-not-found.svg';
 
 export default function Home() {
-    const [{state, loading, error}, fetchMovies] = useHomeFetch();
     const [searchTerm, setSearchTerm] = useState('');
+
+    const [
+            {
+                state, 
+                loading, 
+                error
+            }, 
+            fetchMovies
+        ] = useHomeFetch(searchTerm);
+
     const { currentPage, totalPages } = state;
 
     function loadMoreMovies() {
@@ -42,7 +51,6 @@ export default function Home() {
         fetchMovies(endpoint);
     }
 
-    console.log(state);
     if(error) return <div>Error!!!!</div>
     if(!state.movies[0]) return <Spinner />
 
