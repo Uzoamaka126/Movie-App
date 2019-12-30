@@ -30,6 +30,8 @@ export default function Home() {
         const popularMoviesEndpoint = `${API_URL}movie/popular?api_key=${API_KEY}&page=${currentPage + 1}`;
         const endpoint = searchTerm ? searchEndpoint : popularMoviesEndpoint;
 
+        console.log(popularMoviesEndpoint);
+
         fetchMovies(endpoint);
 
     }
